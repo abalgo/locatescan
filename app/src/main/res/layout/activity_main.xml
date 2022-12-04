@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.budiyev.android.codescanner.CodeScannerView
+        android:id="@+id/scanner_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:autoFocusButtonColor="@android:color/white"
+        app:autoFocusButtonVisible="true"
+        app:flashButtonColor="@android:color/white"
+        app:flashButtonVisible="true"
+        app:frameColor="@android:color/black"
+        app:frameCornersSize="70dp"
+        app:frameCornersRadius="0dp"
+        app:frameAspectRatioWidth="1"
+        app:frameAspectRatioHeight="0.8"
+        app:frameSize="0.75"
+        app:frameThickness="7dp"
+        app:maskColor="#80000000"/>
+
+
+
+    <TextView
+        android:id="@+id/mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:onClick="ChangeMode"
+        android:text="MODE: Click To Scan"
+        android:textColor="#80ff80"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/hier"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="55dp"
+        android:onClick="HierDown"
+        android:text="Hierarchy Level 1\nLevel2\nLevel3\nLevel4\nCLICK TO REMOVE ONE LEVEL"
+        android:textColor="#ff8080"
+        android:textSize="13dp" />
+
+
+
+    <TextView
+        android:id="@+id/latest"
+        android:layout_gravity="bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="#ffffff"
+        android:text="Latest Scan - CLICK TO ADD TO HIERARCHY"
+        android:textSize="16dp"
+        android:onClick="HierUp"/>
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_gravity="bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="#80ff00"
+        android:text="Location"
+        android:textSize="16dp" />
+    <SeekBar
+        android:id="@+id/xzoom"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="145dp"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="1"/>
+
+
+    <TextView
+        android:id="@+id/items"
+        android:layout_gravity="bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="75dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="#AAC"
+        android:text="Latest items\nsecond\nthid\nCLICK TO REMOVE LATEST"
+        android:textSize="11dp"
+        android:onClick="RemoveLastItem" />
+
+</FrameLayout>
