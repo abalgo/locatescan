@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private CodeScannerView mCodeScannerView;
     private ScanSession scs;
     private SeekBar mZoom ;
-    private int linesize;
     private long lastcantime=0;
     private int funcmode=1; // 0 =rafale 1=clicktoscan
     private boolean autofocusenabled=true;
@@ -46,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mCodeScanner.startPreview();
+        if (mCodeScanner!=null) mCodeScanner.startPreview();
         //updateInfo();
     }
 
     @Override
     protected void onPause() {
-        mCodeScanner.releaseResources();
+        if (mCodeScanner!=null) mCodeScanner.releaseResources();
         super.onPause();
     }
 
@@ -61,14 +60,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        scs = new ScanSession();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 123);
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
         } else {
-            scs = new ScanSession();
-            TextView hier= (TextView)  findViewById(R.id.hier);
-            ViewGroup.LayoutParams params = hier.getLayoutParams();
-            linesize = params.height;
             startScanning();
         }
     }

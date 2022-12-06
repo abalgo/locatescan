@@ -10,7 +10,7 @@
 
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="LOC-ATE Scanner"
+        android:label="LocATE Scan"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
