@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 123);
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
         } else {
             scs = new ScanSession();
             TextView hier= (TextView)  findViewById(R.id.hier);
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 autofocusenabled=mCodeScanner.isAutoFocusEnabled();
                 mCodeScanner.setScanMode(ScanMode.PREVIEW);
                 CodeScannerView sv = (CodeScannerView) findViewById(R.id.scanner_view);
-                sv.setMaskColor(Color.parseColor("#80808080"));
+                sv.setMaskColor(Color.parseColor("#AAAAAAAA"));
                 try {
                     if (scs.receive(result.getText(),funcmode)) {
                         updateInfo();
@@ -166,7 +167,9 @@ public class MainActivity extends AppCompatActivity {
                 else if (funcmode==1) {
                     mCodeScanner.setScanMode(ScanMode.CONTINUOUS);
                     mCodeScanner.setAutoFocusEnabled(autofocusenabled);
-                    sv.setMaskColor(Color.parseColor("#80800000"));
+                    if (scs.getLocation()=="") sv.setMaskColor(Color.parseColor("#A0000080"));
+                    else sv.setMaskColor(Color.parseColor("#A0800000"));
+
                 }
 
             }
@@ -192,12 +195,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void scandone() {
         CodeScannerView sv = (CodeScannerView) findViewById(R.id.scanner_view);
-        sv.setMaskColor(Color.parseColor("#80FFFFFF"));
+        sv.setMaskColor(Color.parseColor("#A0FFFFFF"));
     }
 
     public void pause500() {
         CodeScannerView sv = (CodeScannerView) findViewById(R.id.scanner_view);
-        sv.setMaskColor(Color.parseColor("#80000000"));
+        sv.setMaskColor(Color.parseColor("#A0000000"));
         mCodeScanner.setScanMode(ScanMode.PREVIEW);
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
@@ -209,24 +212,28 @@ public class MainActivity extends AppCompatActivity {
     }
     public void postscan() {
         CodeScannerView sv = (CodeScannerView) findViewById(R.id.scanner_view);
-        sv.setMaskColor(Color.parseColor("#800F0000"));
+        if (scs.getLocation()=="") sv.setMaskColor(Color.parseColor("#A0000020"));
+        else sv.setMaskColor(Color.parseColor("#A0200000"));
         if (funcmode==0) preparescan();
     }
 
     public void preparescan() {
         CodeScannerView sv = (CodeScannerView) findViewById(R.id.scanner_view);
         if (funcmode==-1) {
-            sv.setMaskColor(Color.parseColor("#80000010"));
+            if (scs.getLocation()=="") sv.setMaskColor(Color.parseColor("#A0000020"));
+            else sv.setMaskColor(Color.parseColor("#A0200000"));
             mCodeScanner.setScanMode(ScanMode.PREVIEW);
             mCodeScanner.setAutoFocusEnabled(autofocusenabled);
         }
         if (funcmode==0) {
-            sv.setMaskColor(Color.parseColor("#80400000"));
+            if (scs.getLocation()=="") sv.setMaskColor(Color.parseColor("#A0000060"));
+            else sv.setMaskColor(Color.parseColor("#A0600000"));
             mCodeScanner.setScanMode(ScanMode.CONTINUOUS);
             mCodeScanner.setAutoFocusEnabled(autofocusenabled);
         }
         if (funcmode==1) {
-            sv.setMaskColor(Color.parseColor("#80000000"));
+            if (scs.getLocation()=="") sv.setMaskColor(Color.parseColor("#A0000020"));
+            else sv.setMaskColor(Color.parseColor("#A0200000"));
             mCodeScanner.setScanMode(ScanMode.PREVIEW);
             mCodeScanner.setAutoFocusEnabled(autofocusenabled);
         }

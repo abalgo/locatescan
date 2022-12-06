@@ -35,7 +35,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:onClick="ChangeMode"
         android:text="MODE: Click To Scan"
@@ -47,7 +46,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="55dp"
         android:onClick="HierDown"
         android:text="Hierarchy Level 1\nLevel2\nLevel3\nLevel4\nCLICK TO REMOVE ONE LEVEL"
@@ -62,7 +61,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="25dp"
         android:textColor="#ffffff"
         android:text="Latest Scan - CLICK TO ADD TO HIERARCHY"
         android:textSize="16dp"
@@ -74,18 +73,19 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="25dp"
         android:textColor="#80ff00"
         android:text="Location"
         android:textSize="16dp" />
+
     <SeekBar
         android:id="@+id/xzoom"
+        android:layout_width="160dp"
+        android:layout_height="32dp"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="145dp"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
         android:max="100"
-        android:progress="1"/>
+        android:progress="1" />
 
 
     <TextView
@@ -94,7 +94,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="75dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="25dp"
         android:textColor="#AAC"
         android:text="Latest items\nsecond\nthid\nCLICK TO REMOVE LATEST"
         android:textSize="11dp"

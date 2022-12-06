@@ -169,7 +169,8 @@ public class ScanSession {
     public boolean removeLevel() {
         ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
         if (hier.size()==0) return false;
-        lastqr=hier.pop();
+        lastqr="";
+        hier.removeLast();
         scanlist.add(new ScannedItem(lastqr));
         scanlist.add(new ScannedItem(lastqr));
         if (hier.size()==0) location="";
