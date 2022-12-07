@@ -5,6 +5,9 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Environment;
 import android.content.Context;
+import android.app.Activity;
+
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -15,7 +18,10 @@ import java.io.FileWriter;   // Import the FileWriter class
 import java.io.IOException;  // Import the IOException class to handle errors
 import java.util.Objects;
 
+import androidx.core.content.ContextCompat;
+
 import static android.os.SystemClock.sleep;
+import static java.sql.Types.NULL;
 
 
 public class ScanSession {
@@ -27,6 +33,7 @@ public class ScanSession {
     private String lastqr;
     private boolean confwait;
     private long lasttime;
+    private File outdir;
 
     public String getLocation() {
         return location;
@@ -43,7 +50,8 @@ public class ScanSession {
         }
         return rtn;
     }
-    public ScanSession() {
+    public ScanSession(File d) {
+        outdir = d;
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd-HHmmss");
         name = formatter.format(date)+"_QRScanSession";
@@ -192,10 +200,11 @@ public class ScanSession {
     public void saveScanned() {
         FileWriter fw;
         try {
-            fw = new FileWriter(Environment.getExternalStorageDirectory()
-                    +"/Android/data/"
-                    +BuildConfig.APPLICATION_ID
-                    +"/"+name+"_scans.csv");
+            //fw = new FileWriter(Environment.getExternalStorageDirectory()
+            //        +"/Android/data/"
+            //        +BuildConfig.APPLICATION_ID
+            //       +"/"+name+"_scans.csv");
+            fw = new FileWriter(outdir+"/"+name+"_scans.csv");
 
             Iterator it = scanlist.iterator();
             while(it.hasNext()){
@@ -211,11 +220,11 @@ public class ScanSession {
     public void saveLocated() {
         FileWriter fw;
         try {
-            fw = new FileWriter(Environment.getExternalStorageDirectory()
-                    +"/Android/data/"
-                    +BuildConfig.APPLICATION_ID
-                    +"/"+name+"_items.csv");
-
+            //fw = new FileWriter(Environment.getExternalStorageDirectory()
+            //       +"/Android/data/"
+            //       +BuildConfig.APPLICATION_ID
+            //       +"/"+name+"_items.csv");
+            fw = new FileWriter(outdir+"/"+name+"_items.csv");
             Iterator it = loclist.iterator();
             while (it.hasNext()) {
                 fw.write(it.next() + "\n");
@@ -232,11 +241,11 @@ public class ScanSession {
         FileWriter fw;
         try {
             LocatedItem l;
-            fw = new FileWriter(Environment.getExternalStorageDirectory()
-                    +"/Android/data/"
-                    +BuildConfig.APPLICATION_ID
-                    +"/"+name+"_pairscan.csv");
-
+            //fw = new FileWriter(Environment.getExternalStorageDirectory()
+            //        +"/Android/data/"
+            //        +BuildConfig.APPLICATION_ID
+            //        +"/"+name+"_pairscan.csv");
+            fw = new FileWriter(outdir+"/"+name+"_pairscan.csv");
 
             Iterator<LocatedItem> it = loclist.iterator();
             while (it.hasNext()) {
