@@ -33,8 +33,10 @@
     <TextView
         android:id="@+id/mode"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:background="#AA606060"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:layout_marginTop="5dp"
         android:onClick="ChangeMode"
         android:text="MODE: Click To Scan"
@@ -81,9 +83,11 @@
     <SeekBar
         android:id="@+id/xzoom"
         android:layout_width="160dp"
-        android:layout_height="32dp"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="145dp"
+        android:layout_height="30dp"
+        android:background="#40808080"
+        android:gravity="center"
+        android:layout_marginBottom="140dp"
         android:max="100"
         android:progress="1" />
 
