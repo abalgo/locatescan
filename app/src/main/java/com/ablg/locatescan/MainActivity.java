@@ -159,16 +159,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void HierUp(View v) {
         scs.addLevel();
+        Idle();
         updateInfo();
     }
 
     public void HierDown(View v) {
         scs.removeLevel();
+        Idle();
         updateInfo();
     }
 
     public void RemoveLastItem(View v) {
         scs.removeLastItem();
+        Idle();
         updateInfo();
     }
 
@@ -180,10 +183,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void Idle() {
         CodeScannerView sv = (CodeScannerView) findViewById(R.id.scanner_view);
-        if (scs.getLocation()=="") sv.setMaskColor(Color.parseColor("#A0000020"));
-        else sv.setMaskColor(Color.parseColor("#A0200000"));
         mCodeScanner.setScanMode(ScanMode.PREVIEW);
         mCodeScanner.setAutoFocusEnabled(autofocusenabled);
+        if (scs.getLocation()=="") sv.setMaskColor(Color.parseColor("#A0000020"));
+        else sv.setMaskColor(Color.parseColor("#A0200000"));
         idle=true;
     }
 
