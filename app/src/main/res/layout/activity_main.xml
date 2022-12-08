@@ -46,7 +46,7 @@
     <TextView
         android:id="@+id/hier"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_gravity="top"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="55dp"
@@ -94,14 +94,14 @@
 
     <TextView
         android:id="@+id/items"
-        android:layout_gravity="bottom"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
+        android:layout_gravity="bottom"
         android:layout_marginBottom="75dp"
         android:layout_marginLeft="25dp"
-        android:textColor="#AAC"
+        android:onClick="RemoveLastItem"
         android:text="Latest items\nsecond\nthid\nCLICK TO REMOVE LATEST"
-        android:textSize="11dp"
-        android:onClick="RemoveLastItem" />
+        android:textColor="#AAC"
+        android:textSize="11dp" />
 
 </FrameLayout>

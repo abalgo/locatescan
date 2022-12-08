@@ -1,16 +1,10 @@
 package com.ablg.locatescan;
 
-import android.Manifest;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.os.Environment;
-import android.content.Context;
-import android.app.Activity;
 
 import java.io.File;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -18,10 +12,8 @@ import java.io.FileWriter;   // Import the FileWriter class
 import java.io.IOException;  // Import the IOException class to handle errors
 import java.util.Objects;
 
-import androidx.core.content.ContextCompat;
-
 import static android.os.SystemClock.sleep;
-import static java.sql.Types.NULL;
+
 
 
 public class ScanSession {
@@ -32,7 +24,6 @@ public class ScanSession {
     private String location;
     private String lastqr;
     private boolean confwait;
-    private long lasttime;
     private File outdir;
 
     public String getLocation() {
@@ -62,16 +53,11 @@ public class ScanSession {
         confwait=false;
         lastqr="";
     }
-    public boolean receive(String qr, int funcmode) {
-        Date date = new Date();
+    public boolean receive(String qr) {
         ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-        long delta=date.getTime()-lasttime;
-        if ((funcmode==0) && (Objects.equals(qr, lastqr)) &&  (delta<1500) ) return false;
-        lasttime=date.getTime();
         switch(scanreceive(qr)) {
             case -1:
                 toneGen1.startTone(ToneGenerator.TONE_PROP_NACK, 300);
-                sleep(600);
                 break;
             case 1:
                 toneGen1.startTone(ToneGenerator.TONE_PROP_PROMPT, 100);
@@ -81,19 +67,16 @@ public class ScanSession {
                 break;
             case 8:
                 toneGen1.startTone(ToneGenerator.TONE_SUP_PIP, 400);
-                sleep(600);
                 break;
             case 9:
                 toneGen1.startTone(ToneGenerator.TONE_CDMA_SOFT_ERROR_LITE, 400);
-                sleep(600);
                 break;
             case 11:
                 toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_INTERCEPT, 400);
-                sleep(600);
                 break;
         }
-        save();
         sleep(600);
+        save();
         lastqr=qr;
         return true;
     }
@@ -173,7 +156,7 @@ public class ScanSession {
         scanlist.add(new ScannedItem(lastqr));
         location=lastqr;
         hier.add(location);
-        toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_INTERCEPT, 500);
+        toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_INTERCEPT, 400);
         sleep(600);
         return true;
     }
@@ -275,12 +258,14 @@ public class ScanSession {
     }
     public String hierstr() {
         String rtn="";
+        String nxt;
         String indent="";
         int i=0;
         Iterator it = hier.iterator();
         while(it.hasNext()){
             i++;
-            if (i>hier.size()-4) rtn=rtn+indent+it.next()+"\n";
+            nxt=it.next().toString();
+            if (i>hier.size()-5) rtn=rtn+indent+nxt+"\n";
             indent=indent+"   ";
         }
         return rtn;

@@ -9,8 +9,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -24,7 +22,10 @@ import com.google.zxing.Result;
 
 import java.io.File;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
+
+import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,7 +88,11 @@ public class MainActivity extends AppCompatActivity {
             public void onDecoded(@NonNull final Result result) {
                 Date date = new Date();
                 long delta=date.getTime()-lastcantime;
-                if (delta<750)  return ;
+                if (funcmode==0) {
+                    if (delta < 750) return;
+                    if (Objects.equals(scs.getLatestScan(),result.getText()) &&
+                            (delta<2000)) return;
+                }
                 lastcantime=date.getTime();
                 //lock.lock();
                 autofocusenabled=mCodeScanner.isAutoFocusEnabled();
@@ -95,13 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 CodeScannerView sv = (CodeScannerView) findViewById(R.id.scanner_view);
                 sv.setMaskColor(Color.parseColor("#AAAAAAAA"));
                 try {
-                    if (scs.receive(result.getText(),funcmode)) {
-                        updateInfo();
-                        scandone();
-                    }
-                    else {
-                        updateInfo();
-                    }
+                    scs.receive(result.getText());
+                    updateInfo();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
             mode.setText("MODE: Click To Scan");
         }
         else{
-            funcmode=-1;
+            funcmode=0;
             mode.setText("MODE: Auto Scan");
         }
         Idle();
