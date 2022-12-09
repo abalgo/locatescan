@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 if (funcmode==0) {
                     if (delta < 750) return;
                     if (Objects.equals(scs.getLatestScan(),result.getText()) &&
-                            (delta<2000)) return;
+                            (delta<1500)) return;
                 }
                 lastcantime=date.getTime();
                 //lock.lock();

@@ -75,8 +75,9 @@ public class ScanSession {
                 toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_INTERCEPT, 400);
                 break;
         }
-        sleep(600);
         save();
+        sleep(500);
+        toneGen1.release();
         lastqr=qr;
         return true;
     }
@@ -157,7 +158,8 @@ public class ScanSession {
         location=lastqr;
         hier.add(location);
         toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_INTERCEPT, 400);
-        sleep(600);
+        sleep(500);
+        toneGen1.release();
         return true;
     }
 
@@ -171,7 +173,8 @@ public class ScanSession {
         if (hier.size()==0) location="";
         else location=hier.getLast();
         toneGen1.startTone(ToneGenerator.TONE_CDMA_SOFT_ERROR_LITE, 500);
-        sleep(600);
+        sleep(500);
+        toneGen1.release();
         return true;
     }
 
@@ -181,7 +184,8 @@ public class ScanSession {
         loclist.removeLast();
         saveLocated();
         toneGen1.startTone(ToneGenerator.TONE_CDMA_CALLDROP_LITE, 150);
-        sleep(600);
+        sleep(500);
+        toneGen1.release();
         return true;
     }
 
