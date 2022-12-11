@@ -53,6 +53,9 @@ public class ScanSession {
         confwait=false;
         lastqr="";
     }
+
+    public String getName() { return name;}
+
     public boolean receive(String qr) {
         ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
         switch(scanreceive(qr)) {
@@ -229,6 +232,16 @@ public class ScanSession {
         savePairScan();
     }
 
+    public String getPairScanPath() { return outdir+"/"+name+"_pairscan.csv";}
+    public String strPairScan() {
+        StringBuilder rtn = new StringBuilder();
+        Iterator<LocatedItem> it = loclist.iterator();
+        while (it.hasNext()) {
+            rtn.append(it.next().pairscan() + "\n");
+        }
+        return rtn.toString();
+    }
+
     public void savePairScan() {
         FileWriter fw;
         try {
@@ -237,7 +250,7 @@ public class ScanSession {
             //        +"/Android/data/"
             //        +BuildConfig.APPLICATION_ID
             //        +"/"+name+"_pairscan.csv");
-            fw = new FileWriter(outdir+"/"+name+"_pairscan.csv");
+            fw = new FileWriter(getPairScanPath());
 
             Iterator<LocatedItem> it = loclist.iterator();
             while (it.hasNext()) {
