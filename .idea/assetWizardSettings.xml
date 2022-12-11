@@ -111,8 +111,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\Arnaud\StudioProjects\locatescan\wt_addmenu\app\src\main\icon.png" />
-                                                <entry key="scalingPercent" value="74" />
+                                                <entry key="imagePath" value="C:\Users\Arnaud\StudioProjects\locatescan\app\src\main\icon.png" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -174,7 +173,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\Arnaud\StudioProjects\locatescan\wt_addmenu\app\src\main\icon.png" />
+                                                <entry key="imagePath" value="C:\Users\Arnaud\StudioProjects\locatescan\app\src\main\icon.png" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -207,7 +206,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\Arnaud\StudioProjects\locatescan\wt_addmenu\app\src\main\icon.png" />
+                                      <entry key="imageAsset" value="C:\Users\Arnaud\StudioProjects\locatescan\app\src\main\icon.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
