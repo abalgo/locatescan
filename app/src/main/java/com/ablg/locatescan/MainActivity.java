@@ -4,14 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -24,11 +27,16 @@ import com.budiyev.android.codescanner.ScanMode;
 import com.google.zxing.Result;
 
 import java.io.File;
+
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private int funcmode=1; // 0 =rafale 1=clicktoscan
     private boolean autofocusenabled=true;
     private boolean idle=true;
-    private File[] outdirs;
+    private File outdir;
 
     @Override
     protected void onResume() {
@@ -60,8 +68,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        File[] outdirs;
         outdirs = ContextCompat.getExternalFilesDirs(this,null);
-        scs = new ScanSession(outdirs[outdirs.length-1]);
+        //outdir=outdirs[0];
+        outdir=outdirs[outdirs.length-1];
+        scs = new ScanSession(outdir);
         idle=true;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 123);
@@ -76,19 +87,55 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        File fileWithinMyDir;
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+        String zipFileName = formatter.format(date)+"_QRScanSessions.zip";
         int id =item.getItemId();
+        Idle();
         switch(id) {
             case R.id.newsession:
                 scs.save();
                 Idle();
-                scs = new ScanSession(outdirs[outdirs.length-1]);
+                scs = new ScanSession(outdir);
                 updateInfo();
                 Toast.makeText(MainActivity.this, "New session started:"+scs.getName(), Toast.LENGTH_LONG).show();
                 break;
             case R.id.about:
                 Toast.makeText(MainActivity.this, "LocATE Scan v"+BuildConfig.VERSION_NAME+"\nA. Bertrand 2022", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.export:
+                Intent ShareIntent = new Intent(Intent.ACTION_SEND);
+                Context context;
+                context=this;
+                if (ShareIntent.resolveActivity(getPackageManager()) == null) return false;
+                ShareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                String folderPath = outdir + File.separator;
+
+                File dir = new File(folderPath);
+                List<String> listFiles;
+                File zipFile = new File(folderPath + zipFileName);
+                JCreateZIP zipManager = new JCreateZIP();
+                listFiles = zipManager.getListFiles(dir, new ArrayList<String>());
+
+                if (zipManager.zip(listFiles, folderPath + zipFileName) == 1) {
+                    Toast.makeText(getApplicationContext(), "zipfile created!", Toast.LENGTH_LONG).show();
+
+                    Uri apkURI = FileProvider.getUriForFile(
+                            context,
+                            context.getApplicationContext()
+                                    .getPackageName() + ".provider", zipFile);
+                    ShareIntent.setType("application/zip").putExtra(Intent.EXTRA_STREAM, apkURI);
+                    ShareIntent.putExtra(Intent.EXTRA_SUBJECT, zipFileName);
+                    ShareIntent.putExtra(Intent.EXTRA_TEXT, scs.strPairScan());
+                    ShareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(Intent.createChooser(ShareIntent, "Sharing session file using..."));
+                }
                 break;
         }
         return true;

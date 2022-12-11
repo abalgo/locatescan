@@ -10,7 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9603ef3b-b7ae-467b-89f5-b67743b1f1ef" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules/app/LOCATE_Scan.app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/LOCATE_Scan.app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ablg/locatescan/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ablg/locatescan/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ablg/locatescan/ScanSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ablg/locatescan/ScanSession.java" afterDir="false" />
     </list>
@@ -29,6 +30,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="resourceFile" />
+        <option value="valueResourceFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -49,6 +52,7 @@
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="android.recentlyUsedThemes" value="Base.V23.Theme.AppCompat" />
     <property name="cidr.known.project.marker" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../barcodescanner" />
   </component>
   <component name="RunManager">
@@ -122,5 +126,21 @@
       <updated>1670615626899</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/ablg/locatescan/MainActivity.java</url>
+          <line>140</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="android.os.Bundle" memberName="mClassLoader" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>
