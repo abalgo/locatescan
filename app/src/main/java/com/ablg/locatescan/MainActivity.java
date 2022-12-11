@@ -9,6 +9,9 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private int funcmode=1; // 0 =rafale 1=clicktoscan
     private boolean autofocusenabled=true;
     private boolean idle=true;
+    private File[] outdirs;
 
     @Override
     protected void onResume() {
@@ -56,9 +60,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        File[] f;
-        f = ContextCompat.getExternalFilesDirs(this,null);
-        scs = new ScanSession(f[f.length-1]);
+        outdirs = ContextCompat.getExternalFilesDirs(this,null);
+        scs = new ScanSession(outdirs[outdirs.length-1]);
         idle=true;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 123);
@@ -67,6 +70,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.threesdots, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id =item.getItemId();
+        switch(id) {
+            case R.id.newsession:
+                scs.save();
+                Idle();
+                scs = new ScanSession(outdirs[outdirs.length-1]);
+                updateInfo();
+                Toast.makeText(MainActivity.this, "New session started:"+scs.getName(), Toast.LENGTH_LONG).show();
+                break;
+            case R.id.about:
+                Toast.makeText(MainActivity.this, "LocATE Scan v"+BuildConfig.VERSION_NAME+"\nA. Bertrand 2022", Toast.LENGTH_LONG).show();
+                break;
+        }
+        return true;
+    }
     private void updateInfo() {
         TextView hier= (TextView)  findViewById(R.id.hier);
         TextView latest= (TextView)  findViewById(R.id.latest);
@@ -120,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
                // });
             }
         });
+
 
         mZoom = (SeekBar) findViewById(R.id.xzoom);
         mZoom.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){

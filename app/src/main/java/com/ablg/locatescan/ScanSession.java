@@ -53,6 +53,9 @@ public class ScanSession {
         confwait=false;
         lastqr="";
     }
+
+    public String getName() { return name;}
+
     public boolean receive(String qr) {
         ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
         switch(scanreceive(qr)) {
