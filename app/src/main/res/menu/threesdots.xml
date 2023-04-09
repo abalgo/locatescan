@@ -6,4 +6,6 @@
        android:id="@+id/export" />
    <item android:title="About"
        android:id="@+id/about" />
+   <item android:title="Delete previous sessions"
+       android:id="@+id/delsessions" />
 </menu>

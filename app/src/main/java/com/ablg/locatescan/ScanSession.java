@@ -193,6 +193,7 @@ public class ScanSession {
     }
 
     public void saveScanned() {
+        if (0==scanlist.size()) return;
         FileWriter fw;
         try {
             //fw = new FileWriter(Environment.getExternalStorageDirectory()
@@ -213,6 +214,7 @@ public class ScanSession {
     }
 
     public void saveLocated() {
+        if (0==loclist.size()) return;
         FileWriter fw;
         try {
             //fw = new FileWriter(Environment.getExternalStorageDirectory()
@@ -243,6 +245,7 @@ public class ScanSession {
     }
 
     public void savePairScan() {
+        if (0==loclist.size()) return;
         FileWriter fw;
         try {
             LocatedItem l;

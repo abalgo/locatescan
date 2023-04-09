@@ -7,7 +7,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -28,7 +30,6 @@ import com.google.zxing.Result;
 
 import java.io.File;
 
-import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -68,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        File[] outdirs;
-        outdirs = ContextCompat.getExternalFilesDirs(this,null);
+        //outdirs = ContextCompat.getExternalFilesDirs(this,null);
+        outdir = getFilesDir();
         //outdir=outdirs[0];
-        outdir=outdirs[outdirs.length-1];
+        //outdir=outdirs[outdirs.length-1];
         scs = new ScanSession(outdir);
         idle=true;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
@@ -106,9 +107,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "New session started:"+scs.getName(), Toast.LENGTH_LONG).show();
                 break;
             case R.id.about:
-                Toast.makeText(MainActivity.this, "LocATE Scan v"+BuildConfig.VERSION_NAME+"\nA. Bertrand 2022", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "LocATE Scan v"+BuildConfig.VERSION_NAME+"\nA. Bertrand 2022-2023", Toast.LENGTH_LONG).show();
                 break;
             case R.id.export:
+                scs.save();
                 Intent ShareIntent = new Intent(Intent.ACTION_SEND);
                 Context context;
                 context=this;
@@ -137,9 +139,35 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(Intent.createChooser(ShareIntent, "Sharing session file using..."));
                 }
                 break;
+            case R.id.delsessions:
+
+                new AlertDialog.Builder(this)
+                        .setTitle("Confirmation")
+                        .setMessage("Are you sure you want to remove all previous saved sessions (impossible to undo) ?")
+                        .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (outdir.exists() && outdir.isDirectory()) {
+                                    File[] files = outdir.listFiles();
+                                    for (File file : files) {
+                                        file.delete();
+                                    }
+                                }
+                                Toast.makeText(getApplicationContext(), "Previous Sessions removed !", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "Cancelled !", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+                scs.save();
+                break;
         }
         return true;
     }
+
     private void updateInfo() {
         TextView hier= (TextView)  findViewById(R.id.hier);
         TextView latest= (TextView)  findViewById(R.id.latest);
